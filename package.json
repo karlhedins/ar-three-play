@@ -27,6 +27,7 @@
     "rollup-plugin-serve": "^0.4.2"
   },
   "dependencies": {
+    "lodash-es": "^4.17.5",
     "three": "^0.89.0",
     "three.ar.js": "^0.1.7"
   }

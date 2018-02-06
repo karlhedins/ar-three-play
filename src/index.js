@@ -1,4 +1,11 @@
+import throttle from 'lodash-es/throttle';
+
 import { getDisplay, init, getModelFromObjFile, moveModelAndShadowTo, getClickCoordinates, update } from './ar-scene';
+
+const moveObject = (canvas, model, shadowMesh, vrDisplay) => (event) => {
+  const { x, y } = getClickCoordinates(event);
+  moveModelAndShadowTo(model, shadowMesh, x, y, vrDisplay);
+};
 
 const spawnObject = (canvas, model, shadowMesh, vrDisplay) => (event) => {
   const { x, y } = getClickCoordinates(event);
@@ -7,7 +14,11 @@ const spawnObject = (canvas, model, shadowMesh, vrDisplay) => (event) => {
     canvas.removeEventListener('touchstart', spawnObject);
     canvas.addEventListener(
       'touchmove',
-      spawnObject(canvas, model, shadowMesh, vrDisplay),
+      throttle(
+        moveObject(canvas, model, shadowMesh, vrDisplay),
+        16,
+        { leading: true, trailing: true },
+      ),
     );
   }
 };
