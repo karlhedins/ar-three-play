@@ -1,0 +1,33 @@
+{
+  "name": "ar-play-js",
+  "version": "0.0.1",
+  "description": "A demo AR web app that run in WebARonARKit and WebARonARCore",
+  "main": "dist/main.min.js",
+  "module": "./src/main.js",
+  "scripts": {
+    "build": "rollup -c",
+    "watch": "rollup -c -w"
+  },
+  "author": "Karl Hedin Sånemyr <karl.hedin@jayway.com>",
+  "license": "apache-2.0",
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-plugin-external-helpers": "^6.22.0",
+    "babel-preset-env": "^1.6.1",
+    "eslint": "^4.17.0",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "rollup": "^0.55.3",
+    "rollup-plugin-babel": "^3.0.3",
+    "rollup-plugin-cleanup": "^2.0.0",
+    "rollup-plugin-livereload": "^0.6.0",
+    "rollup-plugin-node-globals": "^1.1.0",
+    "rollup-plugin-node-resolve": "^3.0.2",
+    "rollup-plugin-regenerator": "^0.5.4",
+    "rollup-plugin-serve": "^0.4.2"
+  },
+  "dependencies": {
+    "three": "^0.89.0",
+    "three.ar.js": "^0.1.7"
+  }
+}
