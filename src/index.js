@@ -1,26 +1,20 @@
-import throttle from 'lodash-es/throttle';
-
+import { Math as threeMath } from 'three';
 import { getDisplay, init, getModelFromObjFile, moveModelAndShadowTo, getClickCoordinates, update } from './ar-scene';
+import HammerHelper from './hammer-helper';
 
-const moveObject = (canvas, model, shadowMesh, vrDisplay) => (event) => {
-  const { x, y } = getClickCoordinates(event);
-  moveModelAndShadowTo(model, shadowMesh, x, y, vrDisplay);
-};
+const initMoveObject = (canvas, model, shadowMesh, vrDisplay) => {
+  console.log('initMoveObject()');
 
-const spawnObject = (canvas, model, shadowMesh, vrDisplay) => (event) => {
-  const { x, y } = getClickCoordinates(event);
-  const didWeHit = moveModelAndShadowTo(model, shadowMesh, x, y, vrDisplay);
-  if (didWeHit) {
-    canvas.removeEventListener('touchstart', spawnObject);
-    canvas.addEventListener(
-      'touchmove',
-      throttle(
-        moveObject(canvas, model, shadowMesh, vrDisplay),
-        16,
-        { leading: true, trailing: true },
-      ),
-    );
-  }
+  const throttleTime = 30;
+  const ham = new HammerHelper(canvas, throttleTime);
+
+  const panCallback = (x, y) =>
+    moveModelAndShadowTo(model, shadowMesh, x, y, vrDisplay);
+  ham.registerPanCallback(panCallback);
+
+  const rotateCallback = rotationDiffAngle =>
+    model.rotateY(threeMath.degToRad(rotationDiffAngle));
+  ham.registerRotateCallback(rotateCallback);
 };
 
 async function main() {
@@ -37,6 +31,7 @@ async function main() {
       vrControls,
       scene,
       shadowMesh,
+      reticle,
     } = init(vrDisplay);
 
     // Load the model: obj-file, material, scale
@@ -50,10 +45,7 @@ async function main() {
     // Add the model to the scene
     scene.add(model);
 
-    canvas.addEventListener(
-      'touchstart',
-      spawnObject(canvas, model, shadowMesh, vrDisplay),
-    );
+    initMoveObject(canvas, model, shadowMesh, vrDisplay);
 
     // Kick off the render loop!
     update(
@@ -63,10 +55,13 @@ async function main() {
       vrControls,
       scene,
       vrDisplay,
+      reticle,
     );
   } catch (error) {
-    alert(error);
     console.log(error);
+    if (error.message === 'Error creating WebGL context.') {
+      main();
+    }
   }
 }
 main();
