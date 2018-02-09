@@ -1,5 +1,5 @@
 import { Math as threeMath } from 'three';
-import { getDisplay, init, getModelFromObjFile, moveModelAndShadowTo, getClickCoordinates, update } from './ar-scene';
+import { getDisplay, init, getModelFromObjFile, moveModelAndShadowTo, update } from './ar-scene';
 import HammerHelper from './hammer-helper';
 
 const initMoveObject = (canvas, model, shadowMesh, vrDisplay) => {

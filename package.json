@@ -1,5 +1,5 @@
 {
-  "name": "ar-play-js",
+  "name": "ar-three-play",
   "version": "0.0.1",
   "description": "A demo AR web app that run in WebARonARKit and WebARonARCore",
   "main": "dist/main.min.js",
